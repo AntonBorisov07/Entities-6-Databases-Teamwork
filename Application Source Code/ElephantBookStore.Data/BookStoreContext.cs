@@ -18,6 +18,7 @@ namespace ElephantBookStore.Data
 			: base("name=BookStoreContext")
 		{
 			Database.SetInitializer(new CreateDatabaseIfNotExists<BookStoreContext>());
+			this.Database.Initialize(false);
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -44,9 +45,7 @@ namespace ElephantBookStore.Data
 
 		public virtual DbSet<Category> Categories { get; set; }
 
-		public virtual DbSet<Book> Books { get; set; }
-
-		public virtual DbSet<Gift> Gifts { get; set; }
+		public virtual DbSet<Item> Items { get; set; }
 	}
 
 	//public class MyEntity

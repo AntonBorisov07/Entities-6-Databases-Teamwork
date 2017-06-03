@@ -11,14 +11,47 @@
         <vm:MainViewModel/>
     </Window.DataContext>
     <DockPanel>
-        <Menu Height="20"
-              DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Import data">
                 <MenuItem Header="Import product types (_xml)" Command="{Binding ImportProductTypesWithTheirCategories}"/>
                 <MenuItem Header="Import _books (json)" Command="{Binding ImportBooksJSON}"/>
                 <MenuItem Header="Import _gifts (json)" Command="{Binding ImportGiftsJSON}"/>
             </MenuItem>
         </Menu>
-        <TabControl></TabControl>
+        <TabControl x:Name="TabControlProductTypes"
+                    TabStripPlacement="Left"
+                    ItemsSource="{Binding ProductTypes}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ProductTypeName}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TabControl x:Name="CategoriesTabControl"
+                                    ItemsSource="{Binding Categories}"
+                                    SelectedItem="{Binding DataContext.SelectedCategory, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CategoryName}"/>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding Items}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </DockPanel>
 </Window>

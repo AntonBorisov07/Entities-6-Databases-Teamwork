@@ -30,7 +30,7 @@ namespace ElephantBookStore.Data.Importers
 					ProductTypeName = productTypeElement.Element("Name").Value
 				};
 
-				if (context.ProductTypes.SingleOrDefault(pt => pt.ProductTypeName == newProductType.ProductTypeName) == null)
+				if (context.ProductTypes.FirstOrDefault(pt => pt.ProductTypeName == newProductType.ProductTypeName) == null)
 				{
 					context.ProductTypes.Add(newProductType);
 				}
@@ -43,6 +43,8 @@ namespace ElephantBookStore.Data.Importers
 				//	};
 				//}
 			}
+
+			context.SaveChanges();
 
 			productTypes = context.ProductTypes.ToList();
 
@@ -58,7 +60,7 @@ namespace ElephantBookStore.Data.Importers
 						ProductTypeID = pt.ID
 					};
 
-					if (context.Categories.SingleOrDefault(c => c.CategoryName == category && c.ProductTypeID == pt.ID) == null)
+					if (context.Categories.FirstOrDefault(c => c.CategoryName == category && c.ProductTypeID == pt.ID) == null)
 					{
 						context.Categories.Add(newCategory);
 					}
@@ -66,6 +68,7 @@ namespace ElephantBookStore.Data.Importers
 			}
 
 			context.SaveChanges();
+			context.Dispose();
 		}
 	}
 }

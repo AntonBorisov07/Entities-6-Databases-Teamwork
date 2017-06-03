@@ -10,12 +10,15 @@ using ElephantBookStore.Client.Helpers;
 using ElephantBookStore.Data;
 using ElephantBookStore.Data.Contracts;
 using ElephantBookStore.Data.Importers;
+using ElephantBookStore.Data.Models;
 using Microsoft.Win32;
 
 namespace ElephantBookStore.Client.ViewModels
 {
 	public class MainViewModel
 	{
+		private Category selectedCategory;
+
 		#region Commands
 		private ICommand importProductTypesCommand;
 		private ICommand importBooksJSON;
@@ -61,6 +64,29 @@ namespace ElephantBookStore.Client.ViewModels
 		}
 
 		#endregion
+
+		public ICollection<ProductType> ProductTypes
+		{
+			get
+			{
+				var cont = new BookStoreContext();
+				var result = cont.ProductTypes.ToList();
+				cont.Dispose();
+				return result;
+			}
+		}
+
+		public Category SelectedCategory
+		{
+			get
+			{
+				return this.selectedCategory;
+			}
+			set
+			{
+				this.selectedCategory = value;
+			}
+		}
 
 		#region Commands Handlers
 		private void HandleProductTypesImport(object obj)

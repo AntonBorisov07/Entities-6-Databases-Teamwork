@@ -34,10 +34,11 @@ namespace ElephantBookStore.Data.Importers
 			foreach (var gift in giftsFromJson)
 			{
 				gift.Category = allCategories.SingleOrDefault(c => c.CategoryName == gift.Category.CategoryName);
-				context.Gifts.Add(gift);
+				context.Items.Add(gift);
 			}
 
 			context.SaveChanges();
+			context.Dispose();
 		}
 	}
 }
