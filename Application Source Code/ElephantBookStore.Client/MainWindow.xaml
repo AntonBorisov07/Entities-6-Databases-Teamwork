@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ElephantBookStore.Client"
         xmlns:vm="clr-namespace:ElephantBookStore.Client.ViewModels"
+        xmlns:models="clr-namespace:ElephantBookStore.Data.Models;assembly=ElephantBookStore.Data"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" 
+        MinHeight="500"
+        MinWidth="1000">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type models:Book}">
+            <Border BorderBrush="Green"
+                    BorderThickness="1"
+                    Margin="3">
+                <StackPanel Orientation="Vertical">
+                    <Border BorderThickness="0 0 0 1"
+                            BorderBrush="Green"
+                            Padding="3">
+                        <TextBlock Text="Book" 
+                               HorizontalAlignment="Center"
+                               FontSize="12"
+                               FontWeight="Bold"/>
+                    </Border>
+                    <DockPanel LastChildFill="False">
+                        <StackPanel DockPanel.Dock="Left"
+                                    Margin="3">
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Author, StringFormat={}Author: {0}}"/>
+                            <TextBlock Text="{Binding Price, StringFormat={}Price: {0}}"/>
+                        </StackPanel>
+                        <Button Content="Edit item"
+                                DockPanel.Dock="Right"
+                                Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding}"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
@@ -31,21 +64,28 @@
                     <DockPanel>
                         <TabControl x:Name="CategoriesTabControl"
                                     ItemsSource="{Binding Categories}"
-                                    SelectedItem="{Binding DataContext.SelectedCategory, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                                    TabStripPlacement="Left">
                             <TabControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding CategoryName}"/>
                                 </DataTemplate>
                             </TabControl.ItemTemplate>
+                            <TabControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </TabControl.ItemsPanel>
                             <TabControl.ContentTemplate>
                                 <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding Items}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}"/>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+                                    <ScrollViewer>
+                                        <ItemsControl ItemsSource="{Binding Items}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </ScrollViewer>
                                 </DataTemplate>
                             </TabControl.ContentTemplate>
                         </TabControl>

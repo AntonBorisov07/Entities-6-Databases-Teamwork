@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ElephantBookStore.Data.Models
 {
@@ -16,6 +12,8 @@ namespace ElephantBookStore.Data.Models
 		public int ID { get; set; }
 
 		public string ProductTypeName { get; set; }
+
+		public bool IsDeleted { get; set; }
 
 		public virtual ICollection<Category> Categories { get; set; }
 	}

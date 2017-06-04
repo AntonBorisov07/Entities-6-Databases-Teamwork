@@ -1,0 +1,77 @@
+﻿<Window x:Class="ElephantBookStore.Client.EditItemWindow"
+        x:Name="EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElephantBookStore.Client"
+        xmlns:models="clr-namespace:ElephantBookStore.Data.Models;assembly=ElephantBookStore.Data"
+        mc:Ignorable="d"
+        Title="EditItemWindow" 
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type models:Book}">
+            <Border BorderBrush="Red"
+                    BorderThickness="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="400"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Edit book data"
+                               Grid.Row="0"
+                               Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="Name"
+                               Grid.Row="1"
+                               Grid.Column="0"/>
+                    <TextBox Text="{Binding Name}"
+                             Grid.Row="1"
+                             Grid.Column="1"/>
+                    <TextBlock Text="Author"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
+                    <TextBox Text="{Binding Author}"
+                             Grid.Row="2"
+                             Grid.Column="1"/>
+                    <TextBlock Text="Price"
+                               Grid.Row="3"
+                               Grid.Column="0"/>
+                    <TextBox Text="{Binding Price}"
+                             Grid.Row="3"
+                             Grid.Column="1"/>
+                    <TextBlock Text="Description"
+                               Grid.Row="5"
+                               Grid.Column="0"/>
+                    <TextBox Text="{Binding Description}"
+                             Grid.Row="5"
+                             Grid.Column="1"/>
+                    <TextBlock Text="Category"
+                               Grid.Row="4"
+                               Grid.Column="0"/>
+                    <ComboBox ItemsSource="{Binding Categories, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                              Grid.Row="4"
+                              Grid.Column="1"
+                              SelectedItem="{Binding Category}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CategoryName}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <ContentControl Content="{Binding ItemToEdit, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+</Window>

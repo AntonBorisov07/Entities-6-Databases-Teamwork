@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ElephantBookStore.Data.Contracts;
 
 namespace ElephantBookStore.Data.Models
 {
@@ -25,6 +20,8 @@ namespace ElephantBookStore.Data.Models
 		public string CategoryName { get; set; }
 
 		public int ProductTypeID { get; set; }
+
+		public bool IsDeleted { get; set; }	
 
 		[ForeignKey("ProductTypeID")]
 		public virtual ProductType ProuctType { get; set; }

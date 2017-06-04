@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProductTypes>
+  <ProductType>
+    <Name>Books</Name>
+    <Categories>
+      <Category>Art, Architecture &amp; Photography</Category>
+      <Category>Biography</Category>
+      <Category>Bulgarian Authors in English</Category>
+      <Category>Fantasy</Category>
+      <Category>Health &amp; Cookery</Category>
+      <Category>History</Category>
+      <Category>Home and Garden</Category>
+      <Category>Horror</Category>
+      <Category>Humour</Category>
+      <Category>Kids Books</Category>
+      <Category>Modern Fiction</Category>
+      <Category>Music</Category>
+      <Category>Philosophy &amp; Psychology</Category>
+      <Category>Poetry &amp; Plays</Category>
+      <Category>Politics &amp; Society</Category>
+      <Category>Sci-fi</Category>
+      <Category>Science</Category>
+      <Category>Sport</Category>
+      <Category>Thrillers</Category>
+      <Category>Travel</Category>
+      <Category>Classics</Category>
+    </Categories>
+  </ProductType>
+  <ProductType>
+    <Name>Gifts</Name>
+    <Categories>
+      <Category>Badges</Category>
+      <Category>Body Care</Category>
+      <Category>Greeting Cards</Category>
+      <Category>Gums and Sweets</Category>
+      <Category>Home &amp; Travel</Category>
+      <Category>Keyrings &amp; Stickers</Category>
+      <Category>Kids</Category>
+      <Category>Lighters</Category>
+      <Category>Limited &amp; Exclusive</Category>
+      <Category>MEN ONLY</Category>
+      <Category>Mugs &amp; Coasters</Category>
+      <Category>Party &amp; Games</Category>
+      <Category>Posters &amp; Prints</Category>
+      <Category>Signs &amp; Magnets</Category>
+      <Category>Stationery</Category>
+      <Category>USB</Category>
+      <Category>Wallets &amp; Card Holders</Category>
+      <Category>Watches</Category>
+      <Category>Wrapping Paper</Category>
+      <Category>Writing Tools</Category>
+    </Categories>
+  </ProductType>
+  <ProductType>
+    <Name>Magazines</Name>
+    <Categories>
+      <Category>ChildLife</Category>
+      <Category>Granta</Category>
+      <Category>Life</Category>
+      <Category>Magazine Accessories</Category>
+      <Category>National Geographic</Category>
+      <Category>New Yorker</Category>
+      <Category>Playboy</Category>
+      <Category>Popular Science</Category>
+      <Category>Rolling Stone</Category>
+      <Category>Time</Category>
+    </Categories>
+  </ProductType>
+  <ProductType>
+    <Name>Manga</Name>
+    <Categories>
+      <Category>Manga in English</Category>
+      <Category>Manga in Japanese</Category>
+    </Categories>
+  </ProductType>
+  <ProductType>
+    <Name>Comics</Name>
+    <Categories>
+		<Category>Captain America</Category>
+		<Category>Iron Man</Category>
+		<Category>Mighty Thor</Category>
+		<Category>The Incredible Hulk</Category>
+		<Category>The Spectacular Spider-Man</Category>
+		<Category>Uncanny X-men</Category>
+		<Category>X-Men</Category>
+    </Categories>
+  </ProductType>
+</ProductTypes>

@@ -60,6 +60,10 @@
     <Compile Include="Importers\JSONBooksImporter.cs" />
     <Compile Include="Importers\JSONGiftsImporter.cs" />
     <Compile Include="Importers\XMLProductTypesImporter.cs" />
+    <Compile Include="Migrations\201706041432568_Added IsDeleted Property.cs" />
+    <Compile Include="Migrations\201706041432568_Added IsDeleted Property.Designer.cs">
+      <DependentUpon>201706041432568_Added IsDeleted Property.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Category.cs" />
@@ -71,6 +75,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706041432568_Added IsDeleted Property.resx">
+      <DependentUpon>201706041432568_Added IsDeleted Property.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

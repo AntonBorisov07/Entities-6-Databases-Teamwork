@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,14 +17,13 @@ using Microsoft.Win32;
 
 namespace ElephantBookStore.Client.ViewModels
 {
-	public class MainViewModel
+	public class MainViewModel : INotifyPropertyChanged
 	{
-		private Category selectedCategory;
-
 		#region Commands
 		private ICommand importProductTypesCommand;
 		private ICommand importBooksJSON;
 		private ICommand importGiftsJSON;
+		private ICommand editItemCommand;
 
 		public ICommand ImportProductTypesWithTheirCategories
 		{
@@ -63,30 +64,19 @@ namespace ElephantBookStore.Client.ViewModels
 			}
 		}
 
+		public ICommand EditItemCommand
+		{
+			get
+			{
+				if (this.editItemCommand == null)
+				{
+					this.editItemCommand = new RelayCommand(this.HandleItemEditting);
+				}
+
+				return this.editItemCommand;
+			}
+		}
 		#endregion
-
-		public ICollection<ProductType> ProductTypes
-		{
-			get
-			{
-				var cont = new BookStoreContext();
-				var result = cont.ProductTypes.ToList();
-				cont.Dispose();
-				return result;
-			}
-		}
-
-		public Category SelectedCategory
-		{
-			get
-			{
-				return this.selectedCategory;
-			}
-			set
-			{
-				this.selectedCategory = value;
-			}
-		}
 
 		#region Commands Handlers
 		private void HandleProductTypesImport(object obj)
@@ -97,6 +87,8 @@ namespace ElephantBookStore.Client.ViewModels
 
 			var categoriesImporter = new XMLProductTypesImporter();
 			categoriesImporter.ImportXMLToDBContext(new BookStoreContext(), dialog.FileName);
+
+			NotifyPropertyChanged("ProductTypes");
 		}
 
 		private void HandleJSONBooksImport(object obj)
@@ -107,6 +99,8 @@ namespace ElephantBookStore.Client.ViewModels
 
 			var booksImporter = new JSONBooksImporter();
 			booksImporter.ImportJSONToDBContext(new BookStoreContext(), dialog.FileName);
+
+			NotifyPropertyChanged("ProductTypes");
 		}
 
 		private void HandleJSONGiftsImport(object obj)
@@ -117,8 +111,36 @@ namespace ElephantBookStore.Client.ViewModels
 
 			var giftsImporter = new JSONGiftsImporter();
 			giftsImporter.ImportJSONToDBContext(new BookStoreContext(), dialog.FileName);
+
+			NotifyPropertyChanged("ProductTypes");
 		}
+
+
+		private void HandleItemEditting(object obj)
+		{
+			Item item = obj as Item;
+
+			var editItemWindow = new EditItemWindow(item);
+			editItemWindow.Show();
+		}
+
 		#endregion
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public ICollection<ProductType> ProductTypes
+		{
+			get
+			{
+				var cont = new BookStoreContext();
+				return cont.ProductTypes.ToList();
+			}
+		}
+
+		private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+		
 	}
 }

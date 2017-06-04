@@ -13,6 +13,5 @@ namespace ElephantBookStore.Data.Models
 	{
 		[Required]
 		public string Author { get; set; }
-		
 	}
 }
