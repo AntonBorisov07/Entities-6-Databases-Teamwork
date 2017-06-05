@@ -83,10 +83,16 @@ namespace ElephantBookStore.Client.ViewModels
 		{
 			var dialog = new OpenFileDialog();
 			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+			dialog.Multiselect = true;
+			dialog.Filter = "Xml Files (*.xml)|*.xml";
 			dialog.ShowDialog();
 
 			var categoriesImporter = new XMLProductTypesImporter();
-			categoriesImporter.ImportXMLToDBContext(new BookStoreContext(), dialog.FileName);
+
+			foreach (var file in dialog.FileNames)
+			{
+				categoriesImporter.ImportXMLToDBContext(new BookStoreContext(), file);
+			}
 
 			NotifyPropertyChanged("ProductTypes");
 		}
@@ -95,10 +101,16 @@ namespace ElephantBookStore.Client.ViewModels
 		{
 			var dialog = new OpenFileDialog();
 			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+			dialog.Multiselect = true;
+			dialog.Filter = "Json Files (*.json)|*.json";
 			dialog.ShowDialog();
 
 			var booksImporter = new JSONBooksImporter();
-			booksImporter.ImportJSONToDBContext(new BookStoreContext(), dialog.FileName);
+
+			foreach (var file in dialog.FileNames)
+			{
+				booksImporter.ImportJSONToDBContext(new BookStoreContext(), file);
+			}
 
 			NotifyPropertyChanged("ProductTypes");
 		}
@@ -107,10 +119,16 @@ namespace ElephantBookStore.Client.ViewModels
 		{
 			var dialog = new OpenFileDialog();
 			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+			dialog.Multiselect = true;
+			dialog.Filter = "Json Files (*.json	)|*.json";
 			dialog.ShowDialog();
 
 			var giftsImporter = new JSONGiftsImporter();
-			giftsImporter.ImportJSONToDBContext(new BookStoreContext(), dialog.FileName);
+
+			foreach (var file in dialog.FileNames)
+			{
+				giftsImporter.ImportJSONToDBContext(new BookStoreContext(), file);
+			}
 
 			NotifyPropertyChanged("ProductTypes");
 		}
@@ -133,7 +151,14 @@ namespace ElephantBookStore.Client.ViewModels
 			get
 			{
 				var cont = new BookStoreContext();
-				return cont.ProductTypes.ToList();
+				if (cont.ProductTypes.Any())
+				{
+					return cont.ProductTypes.ToList();
+				}
+				else
+				{
+					return null;
+				}
 			}
 		}
 
@@ -141,6 +166,6 @@ namespace ElephantBookStore.Client.ViewModels
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-		
+
 	}
 }
