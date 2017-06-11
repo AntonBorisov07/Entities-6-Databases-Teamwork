@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-using ElephantBookStore.Data.Contracts;
-using ElephantBookStore.Data.Models;
-
-namespace ElephantBookStore.Data.Importers
+﻿namespace ElephantBookStore.Data.Importers
 {
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Xml.Linq;
+
+	using Contracts;
+	using Models;
+
 	public class XMLProductTypesImporter : IXMLImporter
 	{
 		public void ImportXMLToDBContext(BookStoreContext context, string fileName)
@@ -34,14 +34,6 @@ namespace ElephantBookStore.Data.Importers
 				{
 					context.ProductTypes.Add(newProductType);
 				}
-
-				//foreach (var categoryName in categoriesElements)
-				//{
-				//	var newCategory = new Category()
-				//	{
-				//		CategoryName = 
-				//	};
-				//}
 			}
 
 			context.SaveChanges();
@@ -68,7 +60,6 @@ namespace ElephantBookStore.Data.Importers
 			}
 
 			context.SaveChanges();
-			context.Dispose();
 		}
 	}
 }

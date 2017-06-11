@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace ElephantBookStore.Data.Models
+﻿namespace ElephantBookStore.Data.Models
 {
+	using System.Collections.Generic;
+
 	public class ProductType
 	{
 		public ProductType()

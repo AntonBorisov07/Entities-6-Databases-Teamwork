@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ElephantBookStore.Data.Models;
-
-namespace ElephantBookStore.Data.Contracts
+﻿namespace ElephantBookStore.Data.Contracts
 {
+	using Models;
+
 	public interface IItem
 	{
 		int ID { get; set; }
@@ -18,5 +13,7 @@ namespace ElephantBookStore.Data.Contracts
 		decimal Price { get; set; }
 
 		string Description { get; set; }
+		
+		bool IsDeleted { get; set; }
 	}
 }

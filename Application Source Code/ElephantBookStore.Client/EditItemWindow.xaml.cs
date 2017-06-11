@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ElephantBookStore.Data;
-using ElephantBookStore.Data.Contracts;
-using ElephantBookStore.Data.Models;
-
-namespace ElephantBookStore.Client
+﻿namespace ElephantBookStore.Client
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Linq;
+	using System.Runtime.CompilerServices;
+	using System.Windows;
+	using System.Windows.Input;
+
+	using Helpers;
+	using ElephantBookStore.Data;
+	using ElephantBookStore.Data.Models;
+
 	/// <summary>
 	/// Interaction logic for EditItemWindow.xaml
 	/// </summary>
@@ -26,16 +19,36 @@ namespace ElephantBookStore.Client
 	{
 		private Item item;
 		private BookStoreContext context;
+		private ICommand saveItemCommand;
 
 		public EditItemWindow()
 		{
 		}
 
-		public EditItemWindow(Item item)
+		public EditItemWindow(Item item, BookStoreContext context)
 		{
 			InitializeComponent();
 			this.ItemToEdit = item;
-			this.context = new BookStoreContext();
+			this.context = context;
+		}
+
+		public ICommand SaveItemCommand
+		{
+			get
+			{
+				if (this.saveItemCommand == null)
+				{
+					this.saveItemCommand = new RelayCommand(this.HandleItemSaving);
+				}
+
+				return this.saveItemCommand;
+			}
+		}
+
+		private void HandleItemSaving(object obj)
+		{
+			this.context.SaveChanges();
+			this.Close();
 		}
 
 		public ICollection<Category> Categories
@@ -43,7 +56,7 @@ namespace ElephantBookStore.Client
 			get
 			{
 				var name = this.ItemToEdit.GetType().Name;
-				return this.context.ProductTypes.First(p => p.ProductTypeName.Contains(name)).Categories;
+				return this.context.ProductTypes.First(p => p.ProductTypeName.Contains(name)).Categories.Where(c => c.IsDeleted == false).ToList();
 			}
 		}
 

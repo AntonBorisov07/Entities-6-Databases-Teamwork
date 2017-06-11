@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Input;
-
-namespace ElephantBookStore.Client.Helpers
+﻿namespace ElephantBookStore.Client.Helpers
 {
+	using System;
+	using System.Windows.Input;
+
 	public class RelayCommand : ICommand
 	{
 		private Action<object> execute;

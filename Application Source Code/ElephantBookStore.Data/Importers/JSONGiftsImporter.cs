@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
-using ElephantBookStore.Data.Contracts;
-using ElephantBookStore.Data.Models;
-
-namespace ElephantBookStore.Data.Importers
+﻿namespace ElephantBookStore.Data.Importers
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Web.Script.Serialization;
+
+	using Contracts;
+	using Models;
+
 	public class JSONGiftsImporter : IJSONImporter
 	{
 		public void ImportJSONToDBContext(BookStoreContext context, string fileName)
@@ -38,7 +36,6 @@ namespace ElephantBookStore.Data.Importers
 			}
 
 			context.SaveChanges();
-			context.Dispose();
 		}
 	}
 }

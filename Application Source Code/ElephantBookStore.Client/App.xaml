@@ -4,6 +4,20 @@
              xmlns:local="clr-namespace:ElephantBookStore.Client"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="Content" Value="Save"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
+        <Style x:Key="CancelButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="OrangeRed"/>
+            <Setter Property="Content" Value="Cancel"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="IsCancel" Value="True"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
     </Application.Resources>
 </Application>

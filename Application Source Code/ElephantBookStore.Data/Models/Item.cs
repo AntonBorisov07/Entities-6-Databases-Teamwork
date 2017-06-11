@@ -26,5 +26,7 @@ namespace ElephantBookStore.Data.Models
 		public string Description { get; set; }
 
 		public bool IsDeleted { get; set; }
+
+		public string Distinguisher => this.GetType().Name;
 	}
 }

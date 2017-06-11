@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web.Script.Serialization;
-using ElephantBookStore.Data.Contracts;
-using ElephantBookStore.Data.Models;
-using Newtonsoft.Json;
-
-namespace ElephantBookStore.Data.Importers
+﻿namespace ElephantBookStore.Data.Importers
 {
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Web.Script.Serialization;
+
+	using Contracts;
+	using Models;
+
 	public class JSONBooksImporter : IJSONImporter
 	{
 		public void ImportJSONToDBContext(BookStoreContext context, string fileName)
@@ -35,7 +35,6 @@ namespace ElephantBookStore.Data.Importers
 			}
 
 			context.SaveChanges();
-			context.Dispose();
 		}
 	}
 }

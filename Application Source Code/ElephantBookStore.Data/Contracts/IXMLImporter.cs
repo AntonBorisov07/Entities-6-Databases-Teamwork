@@ -1,6 +1,4 @@
-﻿using System.Data.Entity;
-
-namespace ElephantBookStore.Data.Contracts
+﻿namespace ElephantBookStore.Data.Contracts
 {
 	public interface IXMLImporter
 	{

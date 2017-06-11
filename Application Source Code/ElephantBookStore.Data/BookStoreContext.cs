@@ -1,9 +1,11 @@
 namespace ElephantBookStore.Data
 {
+	using System;
 	using System.ComponentModel.DataAnnotations.Schema;
 	using System.Data.Entity;
 	using System.Data.Entity.Infrastructure.Annotations;
-	using System.Data.Entity.ModelConfiguration.Conventions;
+	using ElephantBookStore.Data.Contracts;
+	using ElephantBookStore.Data.Migrations;
 	using ElephantBookStore.Data.Models;
 
 	public class BookStoreContext : DbContext
@@ -17,8 +19,8 @@ namespace ElephantBookStore.Data
 		public BookStoreContext()
 			: base("name=BookStoreContext")
 		{
-			Database.SetInitializer(new CreateDatabaseIfNotExists<BookStoreContext>());
-			this.Database.Initialize(false);
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<BookStoreContext, Configuration>());
+			//this.Database.Initialize(false);
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -33,6 +35,11 @@ namespace ElephantBookStore.Data
 											  {
 												  IsUnique = true
 											  }));
+
+			modelBuilder.Entity<Gift>().ToTable("Gifts");
+			modelBuilder.Entity<Magazine>().ToTable("Magazines");
+			modelBuilder.Entity<Manga>().ToTable("Mangas");
+			modelBuilder.Entity<Comic>().ToTable("Comics");
 
 			base.OnModelCreating(modelBuilder);
 		}

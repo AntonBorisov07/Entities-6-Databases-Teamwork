@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ElephantBookStore.Data.Models
+﻿namespace ElephantBookStore.Data.Models
 {
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+
 	public class Category
 	{
 		public Category()
@@ -16,12 +16,12 @@ namespace ElephantBookStore.Data.Models
 
 		[MinLength(2)]
 		[MaxLength(50)]
-		[Index(IsUnique =true)]
+		[Index(IsUnique = true)]
 		public string CategoryName { get; set; }
 
 		public int ProductTypeID { get; set; }
 
-		public bool IsDeleted { get; set; }	
+		public bool IsDeleted { get; set; }
 
 		[ForeignKey("ProductTypeID")]
 		public virtual ProductType ProuctType { get; set; }

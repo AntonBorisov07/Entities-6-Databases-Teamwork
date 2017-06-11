@@ -1,29 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using ElephantBookStore.Client.Helpers;
-using ElephantBookStore.Data;
-using ElephantBookStore.Data.Contracts;
-using ElephantBookStore.Data.Importers;
-using ElephantBookStore.Data.Models;
-using Microsoft.Win32;
-
-namespace ElephantBookStore.Client.ViewModels
+﻿namespace ElephantBookStore.Client.ViewModels
 {
+	using Microsoft.Win32;
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Linq;
+	using System.Reflection;
+	using System.Runtime.CompilerServices;
+	using System.Windows.Input;
+
+	using Helpers;
+	using ElephantBookStore.Data;
+	using ElephantBookStore.Data.Contracts;
+	using ElephantBookStore.Data.Importers;
+	using ElephantBookStore.Data.Models;
+
 	public class MainViewModel : INotifyPropertyChanged
 	{
+		private BookStoreContext dbContext;
+		private OpenFileDialog dialog;
+		private IXMLImporter productsImporter;
+		private IJSONImporter booksImporter;
+		private IJSONImporter giftsImporter;
+		private IExcelImporter magazinesImporter;
+		private IExcelImporter comicsImporter;
+
+		public MainViewModel()
+		{
+			this.dbContext = new BookStoreContext();
+			this.productsImporter = new XMLProductTypesImporter();
+			this.booksImporter = new JSONBooksImporter();
+			this.giftsImporter = new JSONGiftsImporter();
+			this.magazinesImporter = new ExcelMagazinesImporter();
+			this.comicsImporter = new ExcelComicsImporter();
+			this.dialog = new OpenFileDialog()
+			{
+				InitialDirectory = Assembly.GetCallingAssembly().Location,
+				Multiselect = true
+			};
+		}
+
+		public MainViewModel(BookStoreContext context) : this()
+		{
+			if (context != null)
+			{
+				this.dbContext = context;
+			}
+		}
+
 		#region Commands
 		private ICommand importProductTypesCommand;
 		private ICommand importBooksJSON;
 		private ICommand importGiftsJSON;
+		private ICommand importMagazines;
+		private ICommand importComics;
 		private ICommand editItemCommand;
+		private ICommand deleteItemCommand;
+		private ICommand addNewCategory;
+		private ICommand addNewItem;
+		private ICommand createPDFReport;
+
+		private ICommand deleteCategory;
 
 		public ICommand ImportProductTypesWithTheirCategories
 		{
@@ -64,6 +101,32 @@ namespace ElephantBookStore.Client.ViewModels
 			}
 		}
 
+		public ICommand ImportMagazines
+		{
+			get
+			{
+				if (this.importMagazines == null)
+				{
+					this.importMagazines = new RelayCommand(this.HandleXLSMagazinesImport);
+				}
+
+				return this.importMagazines;
+			}
+		}
+
+		public ICommand ImportComics
+		{
+			get
+			{
+				if (this.importComics == null)
+				{
+					importComics = new RelayCommand(this.HandleXLSComicsImport);
+				}
+
+				return this.importComics;
+			}
+		}
+
 		public ICommand EditItemCommand
 		{
 			get
@@ -76,22 +139,82 @@ namespace ElephantBookStore.Client.ViewModels
 				return this.editItemCommand;
 			}
 		}
+
+		public ICommand DeleteItemCommand
+		{
+			get
+			{
+				if (this.deleteItemCommand == null)
+				{
+					this.deleteItemCommand = new RelayCommand(this.HandleItemDeleting);
+				}
+
+				return this.deleteItemCommand;
+			}
+		}
+
+		public ICommand AddNewCategory
+		{
+			get
+			{
+				if (this.addNewCategory == null)
+				{
+					this.addNewCategory = new RelayCommand(this.HandleCategoryAddition);
+				}
+
+				return this.addNewCategory;
+			}
+		}
+
+		public ICommand AddNewItem
+		{
+			get
+			{
+				if (this.addNewItem == null)
+				{
+					this.addNewItem = new RelayCommand(this.HandleItemAddition);
+				}
+
+				return this.addNewItem;
+			}
+		}
+
+		public ICommand DeleteCategory
+		{
+			get
+			{
+				if (this.deleteCategory == null)
+				{
+					this.deleteCategory = new RelayCommand(this.HandleCategoryDeletion);
+				}
+
+				return this.deleteCategory;
+			}
+		}
+
+		public ICommand CreatePDFReportForCategory
+		{
+			get
+			{
+				if (this.createPDFReport == null)
+				{
+					this.createPDFReport = new RelayCommand(this.HandlePDFReportGenerating);
+				}
+
+				return this.createPDFReport;
+			}
+		}
 		#endregion
 
 		#region Commands Handlers
 		private void HandleProductTypesImport(object obj)
 		{
-			var dialog = new OpenFileDialog();
-			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
-			dialog.Multiselect = true;
-			dialog.Filter = "Xml Files (*.xml)|*.xml";
-			dialog.ShowDialog();
+			this.dialog.Filter = "Xml Files (*.xml)|*.xml";
+			this.dialog.ShowDialog();
 
-			var categoriesImporter = new XMLProductTypesImporter();
-
-			foreach (var file in dialog.FileNames)
+			foreach (var file in this.dialog.FileNames)
 			{
-				categoriesImporter.ImportXMLToDBContext(new BookStoreContext(), file);
+				this.productsImporter.ImportXMLToDBContext(this.dbContext, file);
 			}
 
 			NotifyPropertyChanged("ProductTypes");
@@ -99,17 +222,12 @@ namespace ElephantBookStore.Client.ViewModels
 
 		private void HandleJSONBooksImport(object obj)
 		{
-			var dialog = new OpenFileDialog();
-			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
-			dialog.Multiselect = true;
-			dialog.Filter = "Json Files (*.json)|*.json";
-			dialog.ShowDialog();
-
-			var booksImporter = new JSONBooksImporter();
+			this.dialog.Filter = "Json Files (*.json)|*.json";
+			this.dialog.ShowDialog();
 
 			foreach (var file in dialog.FileNames)
 			{
-				booksImporter.ImportJSONToDBContext(new BookStoreContext(), file);
+				this.booksImporter.ImportJSONToDBContext(this.dbContext, file);
 			}
 
 			NotifyPropertyChanged("ProductTypes");
@@ -117,31 +235,86 @@ namespace ElephantBookStore.Client.ViewModels
 
 		private void HandleJSONGiftsImport(object obj)
 		{
-			var dialog = new OpenFileDialog();
-			dialog.InitialDirectory = Assembly.GetExecutingAssembly().Location;
-			dialog.Multiselect = true;
-			dialog.Filter = "Json Files (*.json	)|*.json";
-			dialog.ShowDialog();
+			this.dialog.Filter = "Json Files (*.json	)|*.json";
+			this.dialog.ShowDialog();
 
-			var giftsImporter = new JSONGiftsImporter();
-
-			foreach (var file in dialog.FileNames)
+			foreach (var file in this.dialog.FileNames)
 			{
-				giftsImporter.ImportJSONToDBContext(new BookStoreContext(), file);
+				this.giftsImporter.ImportJSONToDBContext(this.dbContext, file);
 			}
 
 			NotifyPropertyChanged("ProductTypes");
 		}
 
+		private void HandleXLSMagazinesImport(object obj)
+		{
+			this.dialog.Filter = "Excel Files (*.xls)|*.xls";
+			this.dialog.ShowDialog();
+
+			foreach (var file in this.dialog.FileNames)
+			{
+				this.magazinesImporter.ImportDataToContext(this.dbContext, file);
+			}
+
+			NotifyPropertyChanged("ProductTypes");
+		}
+
+		private void HandleXLSComicsImport(object obj)
+		{
+			this.dialog.Filter = "Excel Files (*.xls)|*.xls";
+			this.dialog.ShowDialog();
+
+			foreach (var file in this.dialog.FileNames)
+			{
+				this.comicsImporter.ImportDataToContext(this.dbContext, file);
+			}
+
+			NotifyPropertyChanged("ProductTypes");
+		}
 
 		private void HandleItemEditting(object obj)
 		{
 			Item item = obj as Item;
 
-			var editItemWindow = new EditItemWindow(item);
-			editItemWindow.Show();
+			var editItemWindow = new EditItemWindow(item, this.dbContext);
+			editItemWindow.ShowDialog();
+			NotifyPropertyChanged("ProductTypes");
 		}
 
+		private void HandleItemDeleting(object obj)
+		{
+			var item = obj as IItem;
+			item.IsDeleted = true;
+			this.dbContext.SaveChanges();
+			NotifyPropertyChanged("ProductTypes");
+		}
+
+		private void HandleCategoryAddition(object obj)
+		{
+			var addCategoryWindow = new AddCategoryWindow(this.dbContext);
+			addCategoryWindow.ShowDialog();
+			NotifyPropertyChanged("ProductTypes");
+		}
+
+		private void HandleItemAddition(object obj)
+		{
+			var addItemWindow = new AddItemWindow(this.dbContext);
+			addItemWindow.ShowDialog();
+			NotifyPropertyChanged("ProductTypes");
+		}
+
+		private void HandleCategoryDeletion(object obj)
+		{
+			var deleteCategoryWindow = new DeleteCategoryWindow(this.dbContext);
+			deleteCategoryWindow.ShowDialog();
+			NotifyPropertyChanged("ProductTypes");
+		}
+
+		private void HandlePDFReportGenerating(object obj)
+		{
+			var generateReportWindow = new GenerateReportWindow(this.dbContext);
+			generateReportWindow.ShowDialog();
+		}
 		#endregion
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -150,10 +323,9 @@ namespace ElephantBookStore.Client.ViewModels
 		{
 			get
 			{
-				var cont = new BookStoreContext();
-				if (cont.ProductTypes.Any())
+				if (this.dbContext.ProductTypes.Any())
 				{
-					return cont.ProductTypes.ToList();
+					return this.dbContext.ProductTypes.ToList();
 				}
 				else
 				{
