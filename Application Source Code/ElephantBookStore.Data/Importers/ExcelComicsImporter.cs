@@ -7,18 +7,44 @@
 	using Models;
 
 	using ExcelLibrary.SpreadSheet;
+	using System;
+	using System.IO;
 
 	public class ExcelComicsImporter : IExcelImporter
 	{
-		public void ImportDataToContext(BookStoreContext bookStoreContext, string file)
+		public void ImportDataToContext(IBookStoreContext bookStoreContext, string file)
 		{
+			if (bookStoreContext == null)
+			{
+				throw new ArgumentException("Context cannot be null");
+			}
+
+			if (string.IsNullOrEmpty(file))
+			{
+				throw new ArgumentException("File name cannot be null or empty");
+			}
+
+			try
+			{
+				Path.IsPathRooted(file);
+			}
+			catch (ArgumentException e)
+			{
+				throw new ArgumentException("File name is not valid");
+			}
+
+			if (!File.Exists(file))
+			{
+				throw new FileNotFoundException("File does not exist");
+			}
+
 			var comics = this.ConvertDataToComicsObjects(bookStoreContext, file);
 
 			bookStoreContext.Items.AddRange(comics);
 			bookStoreContext.SaveChanges();
 		}
 
-		private IEnumerable<Comic> ConvertDataToComicsObjects(BookStoreContext sqlContext, string fileName)
+		private IEnumerable<Comic> ConvertDataToComicsObjects(IBookStoreContext sqlContext, string fileName)
 		{
 			var workbook = Workbook.Load(fileName);
 			var workSheet = workbook.Worksheets[0];

@@ -59,24 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookStoreContext.cs" />
+    <Compile Include="Contracts\IBookStoreContext.cs" />
+    <Compile Include="Contracts\ICategory.cs" />
     <Compile Include="Contracts\IExcelImporter.cs" />
     <Compile Include="Contracts\IItem.cs" />
     <Compile Include="Contracts\IJSONImporter.cs" />
+    <Compile Include="Contracts\IProductType.cs" />
     <Compile Include="Contracts\IXMLImporter.cs" />
     <Compile Include="Importers\ExcelComicsImporter.cs" />
     <Compile Include="Importers\ExcelMagazinesImporter.cs" />
     <Compile Include="Importers\JSONBooksImporter.cs" />
     <Compile Include="Importers\JSONGiftsImporter.cs" />
     <Compile Include="Importers\XMLProductTypesImporter.cs" />
-    <Compile Include="Migrations\201706091840479_InitialCreate.cs" />
-    <Compile Include="Migrations\201706091840479_InitialCreate.Designer.cs">
-      <DependentUpon>201706091840479_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706091847117_Magazines added.cs" />
-    <Compile Include="Migrations\201706091847117_Magazines added.Designer.cs">
-      <DependentUpon>201706091847117_Magazines added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comic.cs" />
@@ -90,14 +84,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706091840479_InitialCreate.resx">
-      <DependentUpon>201706091840479_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706091847117_Magazines added.resx">
-      <DependentUpon>201706091847117_Magazines added.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

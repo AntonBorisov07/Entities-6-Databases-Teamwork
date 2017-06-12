@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElephantBookStore.Client", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElephantBookStore.Data", "ElephantBookStore.Data\ElephantBookStore.Data.csproj", "{87DBB762-E86A-4325-8DBA-DDF46F9D74C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElephantBookStore.Client.UnitTests", "ElephantBookStore.Client.Tests\ElephantBookStore.Client.UnitTests.csproj", "{110EFDAD-AAD0-4A41-B2CE-1045A0EAD162}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{87DBB762-E86A-4325-8DBA-DDF46F9D74C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87DBB762-E86A-4325-8DBA-DDF46F9D74C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87DBB762-E86A-4325-8DBA-DDF46F9D74C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{110EFDAD-AAD0-4A41-B2CE-1045A0EAD162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{110EFDAD-AAD0-4A41-B2CE-1045A0EAD162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{110EFDAD-AAD0-4A41-B2CE-1045A0EAD162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{110EFDAD-AAD0-4A41-B2CE-1045A0EAD162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

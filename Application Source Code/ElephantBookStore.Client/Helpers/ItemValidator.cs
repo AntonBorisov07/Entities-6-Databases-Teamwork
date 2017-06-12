@@ -4,7 +4,8 @@
 	{
 		public static bool ValidateBookAuthor(string author)
 		{
-			if (string.IsNullOrEmpty(author) || author.Length < 3 || !char.IsUpper(author[0]) || !author.ContainsOnlyLetters())
+			if (string.IsNullOrEmpty(author) || author.Length < 3 ||
+				author.Length > 250 ||!char.IsUpper(author[0]) || !author.ContainsOnlyLetters())
 			{
 				return false;
 			}
@@ -12,9 +13,11 @@
 			return true;
 		}
 
-		internal static bool ValidateItemName(string newItemName)
+		public static bool ValidateItemName(string newItemName)
 		{
-			if (string.IsNullOrEmpty(newItemName) || newItemName.Length < 3 || !char.IsUpper(newItemName[0]) || !newItemName.ContainsOnlyLetters())
+			if (string.IsNullOrEmpty(newItemName) || newItemName.Length < 3 ||
+				newItemName.Length > 500 || 
+				!char.IsUpper(newItemName[0]) || !newItemName.ContainsOnlyLetters())
 			{
 				return false;
 			}
@@ -22,7 +25,7 @@
 			return true;
 		}
 
-		internal static bool ValidateItemPrice(string newItemPrice)
+		public static bool ValidateItemPrice(string newItemPrice)
 		{
 			var newPriceAsDecimal = 0m;
 
@@ -34,7 +37,7 @@
 			return true;
 		}
 
-		internal static bool ValidateCategoryName(string newItemCategoryName)
+		public static bool ValidateCategoryName(string newItemCategoryName)
 		{
 			if (string.IsNullOrEmpty(newItemCategoryName))
 			{

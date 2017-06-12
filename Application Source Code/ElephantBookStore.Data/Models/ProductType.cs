@@ -1,8 +1,9 @@
 ﻿namespace ElephantBookStore.Data.Models
 {
 	using System.Collections.Generic;
+	using ElephantBookStore.Data.Contracts;
 
-	public class ProductType
+	public class ProductType : IProductType
 	{
 		public ProductType()
 		{

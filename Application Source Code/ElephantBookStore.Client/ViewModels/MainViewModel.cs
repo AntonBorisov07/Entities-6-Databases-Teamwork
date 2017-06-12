@@ -17,7 +17,7 @@
 
 	public class MainViewModel : INotifyPropertyChanged
 	{
-		private BookStoreContext dbContext;
+		private IBookStoreContext dbContext;
 		private OpenFileDialog dialog;
 		private IXMLImporter productsImporter;
 		private IJSONImporter booksImporter;
@@ -40,11 +40,31 @@
 			};
 		}
 
-		public MainViewModel(BookStoreContext context) : this()
+		public MainViewModel(IBookStoreContext context, IXMLImporter productsImporter = null, IJSONImporter booksImporter = null, IJSONImporter giftsImporter = null, IExcelImporter magazinesImporter = null, IExcelImporter comicsImporter = null) : this()
 		{
 			if (context != null)
 			{
 				this.dbContext = context;
+			}
+			if (productsImporter != null)
+			{
+				this.productsImporter = productsImporter;
+			}
+			if (booksImporter != null)
+			{
+				this.booksImporter = booksImporter;
+			}
+			if (giftsImporter != null)
+			{
+				this.giftsImporter = giftsImporter;
+			}
+			if (magazinesImporter != null)
+			{
+				this.magazinesImporter = magazinesImporter;
+			}
+			if (comicsImporter != null)
+			{
+				this.comicsImporter = comicsImporter;
 			}
 		}
 
@@ -59,7 +79,6 @@
 		private ICommand addNewCategory;
 		private ICommand addNewItem;
 		private ICommand createPDFReport;
-
 		private ICommand deleteCategory;
 
 		public ICommand ImportProductTypesWithTheirCategories
@@ -210,66 +229,76 @@
 		private void HandleProductTypesImport(object obj)
 		{
 			this.dialog.Filter = "Xml Files (*.xml)|*.xml";
-			this.dialog.ShowDialog();
 
-			foreach (var file in this.dialog.FileNames)
+			if (this.dialog.ShowDialog() == true)
 			{
-				this.productsImporter.ImportXMLToDBContext(this.dbContext, file);
-			}
+				foreach (var file in this.dialog.FileNames)
+				{
+					this.productsImporter.ImportXMLToDBContext(this.dbContext, file);
+				}
 
-			NotifyPropertyChanged("ProductTypes");
+				NotifyPropertyChanged("ProductTypes");
+			}
 		}
 
 		private void HandleJSONBooksImport(object obj)
 		{
 			this.dialog.Filter = "Json Files (*.json)|*.json";
-			this.dialog.ShowDialog();
 
-			foreach (var file in dialog.FileNames)
+			if (this.dialog.ShowDialog() == true)
 			{
-				this.booksImporter.ImportJSONToDBContext(this.dbContext, file);
-			}
+				foreach (var file in dialog.FileNames)
+				{
+					this.booksImporter.ImportJSONToDBContext(this.dbContext, file);
+				}
 
-			NotifyPropertyChanged("ProductTypes");
+				NotifyPropertyChanged("ProductTypes");
+			}
 		}
 
 		private void HandleJSONGiftsImport(object obj)
 		{
 			this.dialog.Filter = "Json Files (*.json	)|*.json";
-			this.dialog.ShowDialog();
 
-			foreach (var file in this.dialog.FileNames)
+			if (this.dialog.ShowDialog() == true)
 			{
-				this.giftsImporter.ImportJSONToDBContext(this.dbContext, file);
-			}
+				foreach (var file in this.dialog.FileNames)
+				{
+					this.giftsImporter.ImportJSONToDBContext(this.dbContext, file);
+				}
 
-			NotifyPropertyChanged("ProductTypes");
+				NotifyPropertyChanged("ProductTypes");
+			}
 		}
 
 		private void HandleXLSMagazinesImport(object obj)
 		{
 			this.dialog.Filter = "Excel Files (*.xls)|*.xls";
-			this.dialog.ShowDialog();
 
-			foreach (var file in this.dialog.FileNames)
+			if (this.dialog.ShowDialog() == true)
 			{
-				this.magazinesImporter.ImportDataToContext(this.dbContext, file);
-			}
+				foreach (var file in this.dialog.FileNames)
+				{
+					this.magazinesImporter.ImportDataToContext(this.dbContext, file);
+				}
 
-			NotifyPropertyChanged("ProductTypes");
+				NotifyPropertyChanged("ProductTypes");
+			}
 		}
 
 		private void HandleXLSComicsImport(object obj)
 		{
 			this.dialog.Filter = "Excel Files (*.xls)|*.xls";
-			this.dialog.ShowDialog();
 
-			foreach (var file in this.dialog.FileNames)
+			if (this.dialog.ShowDialog() == true)
 			{
-				this.comicsImporter.ImportDataToContext(this.dbContext, file);
-			}
+				foreach (var file in this.dialog.FileNames)
+				{
+					this.comicsImporter.ImportDataToContext(this.dbContext, file);
+				}
 
-			NotifyPropertyChanged("ProductTypes");
+				NotifyPropertyChanged("ProductTypes");
+			}
 		}
 
 		private void HandleItemEditting(object obj)

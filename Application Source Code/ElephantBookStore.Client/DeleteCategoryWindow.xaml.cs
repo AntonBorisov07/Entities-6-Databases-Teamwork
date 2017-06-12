@@ -8,6 +8,8 @@
 	using Helpers;
 	using ElephantBookStore.Data;
 	using ElephantBookStore.Data.Models;
+	using ElephantBookStore.Data.Contracts;
+	using System;
 
 	/// <summary>
 	/// Interaction logic for DeleteCategoryWindow.xaml
@@ -15,15 +17,17 @@
 	public partial class DeleteCategoryWindow : Window
 	{
 		private ICommand confirmCategoryDeletion;
-		private BookStoreContext dbContext;
-
-		public DeleteCategoryWindow()
-		{
-		}
-
-		public DeleteCategoryWindow(BookStoreContext dbContext)
+		private IBookStoreContext dbContext;
+		
+		public DeleteCategoryWindow(IBookStoreContext dbContext)
 		{
 			InitializeComponent();
+
+			if (dbContext == null)
+			{
+				throw new ArgumentException("Context cannot be null");
+			}
+
 			this.dbContext = dbContext;
 		}
 
@@ -50,7 +54,7 @@
 
 		private void HandleCategoryDeletion(object obj)
 		{
-			var objAsCategory = obj as Category;
+			var objAsCategory = obj as ICategory;
 
 			objAsCategory.IsDeleted = true;
 

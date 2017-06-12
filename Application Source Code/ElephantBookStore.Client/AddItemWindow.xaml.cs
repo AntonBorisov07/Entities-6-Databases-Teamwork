@@ -11,6 +11,7 @@
 	using Helpers;
 	using ElephantBookStore.Data;
 	using ElephantBookStore.Data.Models;
+	using ElephantBookStore.Data.Contracts;
 
 	/// <summary>
 	/// Interaction logic for AddItemWindow.xaml
@@ -24,7 +25,7 @@
 		private string newItemPrice;
 		private Category newItemCategory;
 		private string newItemDescription;
-		private BookStoreContext dbContext;
+		private IBookStoreContext dbContext;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,7 +33,7 @@
 		{
 		}
 
-		public AddItemWindow(BookStoreContext dbContext)
+		public AddItemWindow(IBookStoreContext dbContext)
 		{
 			InitializeComponent();
 			this.dbContext = dbContext;
@@ -120,7 +121,7 @@
 		{
 			get
 			{
-				return this.dbContext.Categories.Where(c => c.ProuctType.ProductTypeName.Contains(this.SelectedType.Name) && c.IsDeleted == false).ToList();
+				return this.dbContext.Categories.Where(c => c.ProductType.ProductTypeName.Contains(this.SelectedType.Name) && c.IsDeleted == false).ToList();
 			}
 		}
 

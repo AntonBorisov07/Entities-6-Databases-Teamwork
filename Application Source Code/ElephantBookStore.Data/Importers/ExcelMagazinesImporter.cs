@@ -7,18 +7,44 @@
 	using Models;
 
 	using ExcelLibrary.SpreadSheet;
+	using System.IO;
+	using System;
 
 	public class ExcelMagazinesImporter : IExcelImporter
 	{
-		public void ImportDataToContext(BookStoreContext context, string fileName)
+		public void ImportDataToContext(IBookStoreContext context, string fileName)
 		{
+			if (context == null)
+			{
+				throw new ArgumentException("Context cannot be null");
+			}
+
+			if (string.IsNullOrEmpty(fileName))
+			{
+				throw new ArgumentException("File name cannot be null or empty");
+			}
+
+			try
+			{
+				Path.IsPathRooted(fileName);
+			}
+			catch (ArgumentException e)
+			{
+				throw new ArgumentException("File name is not valid");
+			}
+
+			if (!File.Exists(fileName))
+			{
+				throw new FileNotFoundException("File does not exist");
+			}
+
 			var magazines = this.ConvertExcelDataToMagazinesObjects(context, fileName);
 
 			context.Items.AddRange(magazines);
 			context.SaveChanges();
 		}
 
-		private IEnumerable<Magazine> ConvertExcelDataToMagazinesObjects(BookStoreContext sqlContext, string fileName)
+		private IEnumerable<Magazine> ConvertExcelDataToMagazinesObjects(IBookStoreContext sqlContext, string fileName)
 		{
 			var workbook = Workbook.Load(fileName);
 			var workSheet = workbook.Worksheets[0];

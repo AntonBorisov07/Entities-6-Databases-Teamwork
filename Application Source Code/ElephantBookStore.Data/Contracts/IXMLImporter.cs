@@ -2,6 +2,6 @@
 {
 	public interface IXMLImporter
 	{
-		void ImportXMLToDBContext(BookStoreContext context, string fileName);
+		void ImportXMLToDBContext(IBookStoreContext context, string fileName);
 	}
 }

@@ -4,7 +4,14 @@
 	{
 		public static bool ContainsOnlyLetters(this string str)
 		{
-			foreach (var symbol in str)
+			var trimmedString = str.Trim();
+
+			if (string.IsNullOrEmpty(trimmedString))
+			{
+				return false;
+			}
+
+			foreach (var symbol in trimmedString)
 			{
 				if (!char.IsLetter(symbol) && !char.IsWhiteSpace(symbol))
 				{

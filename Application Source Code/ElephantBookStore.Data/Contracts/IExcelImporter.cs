@@ -2,6 +2,6 @@
 {
 	public interface IExcelImporter
 	{
-		void ImportDataToContext(BookStoreContext context, string fileName);
+		void ImportDataToContext(IBookStoreContext context, string fileName);
 	}
 }

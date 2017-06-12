@@ -10,6 +10,7 @@
 	using Helpers;
 	using ElephantBookStore.Data;
 	using ElephantBookStore.Data.Models;
+	using ElephantBookStore.Data.Contracts;
 
 	/// <summary>
 	/// Interaction logic for GenerateReportWindow.xaml
@@ -17,13 +18,13 @@
 	public partial class GenerateReportWindow : Window
 	{
 		private ICommand generateReport;
-		private BookStoreContext dbContext;
+		private IBookStoreContext dbContext;
 
 		public GenerateReportWindow()
 		{
 		}
 
-		public GenerateReportWindow(BookStoreContext dbContext)
+		public GenerateReportWindow(IBookStoreContext dbContext)
 		{
 			InitializeComponent();
 			this.dbContext = dbContext;

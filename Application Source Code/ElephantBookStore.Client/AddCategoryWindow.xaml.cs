@@ -7,17 +7,18 @@
 	using Helpers;
 	using ElephantBookStore.Data;
 	using ElephantBookStore.Data.Models;
+	using ElephantBookStore.Data.Contracts;
 
 	/// <summary>
 	/// Interaction logic for AddCategoryWindow.xaml
 	/// </summary>
 	public partial class AddCategoryWindow : Window
 	{
-		private BookStoreContext context;
+		private IBookStoreContext context;
 		private RelayCommand addCategoryCommand;
 		private string newCategoryName;
 
-		public AddCategoryWindow(BookStoreContext context)
+		public AddCategoryWindow(IBookStoreContext context)
 		{
 			InitializeComponent();
 			this.context = context;

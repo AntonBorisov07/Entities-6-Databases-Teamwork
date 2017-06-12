@@ -11,6 +11,7 @@
 	using Helpers;
 	using ElephantBookStore.Data;
 	using ElephantBookStore.Data.Models;
+	using ElephantBookStore.Data.Contracts;
 
 	/// <summary>
 	/// Interaction logic for EditItemWindow.xaml
@@ -18,31 +19,43 @@
 	public partial class EditItemWindow : Window, INotifyPropertyChanged
 	{
 		private Item item;
-		private BookStoreContext context;
-		private ICommand saveItemCommand;
+		private RelayCommand saveItemCommand;
+		private IBookStoreContext context;
 
 		public EditItemWindow()
 		{
 		}
 
-		public EditItemWindow(Item item, BookStoreContext context)
+		public EditItemWindow(Item item, IBookStoreContext context)
 		{
 			InitializeComponent();
 			this.ItemToEdit = item;
 			this.context = context;
 		}
 
-		public ICommand SaveItemCommand
+		public RelayCommand SaveItemCommand
 		{
 			get
 			{
 				if (this.saveItemCommand == null)
 				{
-					this.saveItemCommand = new RelayCommand(this.HandleItemSaving);
+					this.saveItemCommand = new RelayCommand(this.HandleItemSaving, this.HandleCanSaveItem);
 				}
 
 				return this.saveItemCommand;
 			}
+		}
+
+		private bool HandleCanSaveItem(object obj)
+		{
+			var result = ItemValidator.ValidateItemName(this.ItemToEdit.Name) && ItemValidator.ValidateItemPrice(this.ItemToEdit.Price.ToString()) && ItemValidator.ValidateCategoryName(this.ItemToEdit.Category.CategoryName);
+
+			if (this.ItemToEdit is Book)
+			{
+				result = result && ItemValidator.ValidateBookAuthor((this.ItemToEdit as Book).Author);
+			}
+
+			return result;
 		}
 
 		private void HandleItemSaving(object obj)

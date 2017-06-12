@@ -2,6 +2,6 @@
 {
 	public interface IJSONImporter
 	{
-		void ImportJSONToDBContext(BookStoreContext context, string fileName);
+		void ImportJSONToDBContext(IBookStoreContext context, string fileName);
 	}
 }

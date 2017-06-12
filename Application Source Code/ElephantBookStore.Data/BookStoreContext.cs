@@ -1,14 +1,12 @@
 namespace ElephantBookStore.Data
 {
-	using System;
 	using System.ComponentModel.DataAnnotations.Schema;
 	using System.Data.Entity;
 	using System.Data.Entity.Infrastructure.Annotations;
 	using ElephantBookStore.Data.Contracts;
-	using ElephantBookStore.Data.Migrations;
-	using ElephantBookStore.Data.Models;
+	using Models;
 
-	public class BookStoreContext : DbContext
+	public class BookStoreContext : DbContext, IBookStoreContext
 	{
 		// Your context has been configured to use a 'BookStoreModel' connection string from your application's 
 		// configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -19,7 +17,7 @@ namespace ElephantBookStore.Data
 		public BookStoreContext()
 			: base("name=BookStoreContext")
 		{
-			Database.SetInitializer(new MigrateDatabaseToLatestVersion<BookStoreContext, Configuration>());
+			Database.SetInitializer(new CreateDatabaseIfNotExists<BookStoreContext>());
 			//this.Database.Initialize(false);
 		}
 

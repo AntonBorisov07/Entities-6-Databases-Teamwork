@@ -9,6 +9,11 @@
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			if (!(value is Boolean))
+			{
+				throw new ArgumentException("Value to convert should be boolean");
+			}
+
 			return (bool)value ? Visibility.Collapsed : Visibility.Visible;
 		}
 

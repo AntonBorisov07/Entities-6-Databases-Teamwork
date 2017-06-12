@@ -3,8 +3,9 @@
 	using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
 	using System.ComponentModel.DataAnnotations.Schema;
+	using ElephantBookStore.Data.Contracts;
 
-	public class Category
+	public class Category : ICategory
 	{
 		public Category()
 		{
@@ -15,7 +16,7 @@
 		public int ID { get; set; }
 
 		[MinLength(2)]
-		[MaxLength(50)]
+		[MaxLength(150)]
 		[Index(IsUnique = true)]
 		public string CategoryName { get; set; }
 
@@ -24,7 +25,7 @@
 		public bool IsDeleted { get; set; }
 
 		[ForeignKey("ProductTypeID")]
-		public virtual ProductType ProuctType { get; set; }
+		public virtual ProductType ProductType { get; set; }
 
 		public virtual ICollection<Item> Items { get; set; }
 	}

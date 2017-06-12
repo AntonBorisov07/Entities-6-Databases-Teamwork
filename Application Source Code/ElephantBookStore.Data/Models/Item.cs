@@ -11,16 +11,22 @@ namespace ElephantBookStore.Data.Models
 {
 	public abstract class Item : IItem
 	{
+		[Key]
 		public int ID { get; set; }
 
 		public int CategoryID { get; set; }
 
 		[Required]
+		[MinLength(3)]
+		[MaxLength(500)]
 		public string Name { get; set; }
 
+		[Required]
 		[ForeignKey("CategoryID")]
 		public Category Category { get; set; }
 
+		[Required]
+		[Range(typeof(decimal), "0.0", "10000.0")]
 		public decimal Price { get; set; }
 
 		public string Description { get; set; }

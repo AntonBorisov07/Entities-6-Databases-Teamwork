@@ -7,6 +7,8 @@
 	public class Book : Item
 	{
 		[Required]
+		[MinLength(3)]
+		[MaxLength(250)]
 		public string Author { get; set; }
 	}
 }

@@ -1,6 +1,8 @@
 ﻿namespace ElephantBookStore.Data.Importers
 {
+	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 	using System.Xml.Linq;
 
@@ -9,11 +11,35 @@
 
 	public class XMLProductTypesImporter : IXMLImporter
 	{
-		public void ImportXMLToDBContext(BookStoreContext context, string fileName)
+		public void ImportXMLToDBContext(IBookStoreContext context, string fileName)
 		{
+			if (context == null)
+			{
+				throw new ArgumentException("Context cannot be empty");
+			}
+
 			if (string.IsNullOrEmpty(fileName))
 			{
-				return;
+				throw new ArgumentException("File name cannot be null or empty");
+			}
+
+			if (fileName.Substring(fileName.Length - 4, 4) != ".xml")
+			{
+				throw new ArgumentException("File extension should be \".xml\"");
+			}
+
+			try
+			{
+				Path.IsPathRooted(fileName);
+			}
+			catch (ArgumentException e)
+			{
+				throw new ArgumentException("File name is not valid");
+			}
+
+			if (!File.Exists(fileName))
+			{
+				throw new FileNotFoundException("File does not exist");
 			}
 
 			var xmlDoc = XDocument.Load(fileName);
@@ -30,12 +56,13 @@
 					ProductTypeName = productTypeElement.Element("Name").Value
 				};
 
-				if (context.ProductTypes.FirstOrDefault(pt => pt.ProductTypeName == newProductType.ProductTypeName) == null)
+				if (productTypes.FirstOrDefault(pt => pt.ProductTypeName == newProductType.ProductTypeName) == null)
 				{
-					context.ProductTypes.Add(newProductType);
+					productTypes.Add(newProductType);
 				}
 			}
 
+			context.ProductTypes.AddRange(productTypes);
 			context.SaveChanges();
 
 			productTypes = context.ProductTypes.ToList();
